@@ -14,3 +14,8 @@ class DataInput(object):
     INPUT_ADDRESS = (By.XPATH, '//input[@id="address"]')
     INPUT_PHONE = (By.XPATH, '//input[@id="phone"]')
     INPUT_EMAIL = (By.XPATH, '//input[@id="email"]')
+    BUTTON_GO_TO_PAYMENT = (By.XPATH, '//button[text()="Перейти к оплате"]')
+
+
+class Payment(object):
+    INSURANCE_POLICY = (By.XPATH, '//*[text()="Ваш полис"]')
