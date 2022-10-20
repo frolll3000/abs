@@ -1,6 +1,6 @@
 from locators import FuncCalculation, FuncDataInput
+from fake_data import FakeLibrary
 import allure
-import fake_data
 
 
 @allure.title("Шаг Расчет. Кнопка Продолжить недоступна без заполнения чекбокса соглашения")
@@ -42,6 +42,7 @@ def test_filling_insurer_data_and_go_to_payment(browser):
     calculation_page.click_on_the_check_box_agreement()
     data_input_page.take_screenshot()
     calculation_page.click_on_the_button_continue()
+    fake_data = FakeLibrary()
     data_input_page.enter_input_full_name(fake_data.get_full_name())
     data_input_page.enter_input_date_birth(fake_data.get_birth_day())
     data_input_page.enter_input_passport_number(fake_data.get_passport_number())
