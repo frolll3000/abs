@@ -5,24 +5,23 @@ import constants
 from allure_commons.types import AttachmentType
 
 
-@allure.step("Открыть страницу {page}")
-def open_page(driver, page):
-    driver.get(page)
+class BaseFunc:
 
+    def __init__(self, driver):
+        self.driver = driver
+        self.base_url = constants.PAGE_VIRUS_PROTECTION
 
-@allure.step("Кликнуть на элемент {element_name}")
-def click_element(driver, locator, element_name=None):
-    WebDriverWait(driver, constants.TIMEOUT).until(EC.visibility_of_element_located(locator))
-    driver.find_element(*locator).click()
+    @allure.step("Сделать скриншот")
+    def take_screenshot(self):
+        allure.attach(self.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
 
+    @allure.step(f"Открыть страницу {constants.PAGE_VIRUS_PROTECTION}")
+    def go_to_virus_protection_page(self):
+        return self.driver.get(self.base_url)
 
-@allure.step("Сделать скриншот")
-def take_screenshot(driver):
-    allure.attach(driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+    def find_element(self, locator):
+        return WebDriverWait(self.driver, constants.TIMEOUT).until(EC.presence_of_element_located(locator),
+                                                                   message=f"Can't find element by locator {locator}")
 
-
-@allure.step("Ввести текст: {text} в {input_name}")
-def input_text(driver, locator, text, input_name=None, click_before_input=False):
-    if click_before_input:
-        click_element(driver, locator)
-    driver.find_element(*locator).send_keys(text)
+    def url_contains(self, url):
+        return WebDriverWait(self.driver, constants.TIMEOUT).until(EC.url_contains(url))

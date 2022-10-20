@@ -7,7 +7,7 @@ import constants
 
 @allure.step("Открыть и закрыть браузер после выполнения тестового сценария")
 @pytest.fixture
-def open_and_close_browser():
+def browser():
     driver = webdriver.Chrome(ChromeDriverManager().install())
     driver.maximize_window()
     driver.implicitly_wait(constants.TIMEOUT)
